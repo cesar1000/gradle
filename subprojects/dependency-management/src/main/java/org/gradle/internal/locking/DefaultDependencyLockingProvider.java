@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import org.gradle.StartParameter;
 import org.gradle.api.artifacts.DependencyConstraint;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.artifacts.result.ResolutionResult;
 import org.gradle.api.artifacts.result.ResolvedComponentResult;
 import org.gradle.api.internal.artifacts.dsl.dependencies.DependencyLockingProvider;
 import org.gradle.api.internal.file.FileResolver;
@@ -64,9 +65,9 @@ public class DefaultDependencyLockingProvider implements DependencyLockingProvid
     }
 
     @Override
-    public void persistResolvedDependencies(String configurationName, Set<ResolvedComponentResult> resolvedComponents) {
+    public void persistResolvedDependencies(String configurationName, ResolutionResult resolutionResult) {
         if (writeLocks) {
-            lockFileReaderWriter.writeLockFile(configurationName, getModulesOrdered(resolvedComponents));
+            lockFileReaderWriter.writeLockFile(configurationName, getModulesOrdered(resolutionResult.getAllComponents()));
         }
     }
 
